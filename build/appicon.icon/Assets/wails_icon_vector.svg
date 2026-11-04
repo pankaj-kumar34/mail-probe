@@ -1,9 +1,56 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 583 533" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-246,-251)">
-        <g id="Ebene1">
-            <path d="M246,251L265,784L401,784L506,450L507,450L505,784L641,784L829,251L682,251L596,567L595,567L596,251L478,251L378,568L391,251L246,251Z"/>
-        </g>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#27272a"/>
+      <stop offset="100%" style="stop-color:#18181b"/>
+    </linearGradient>
+    <linearGradient id="envBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3cd9a0"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    <linearGradient id="flap" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a7f3d0"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#d1fae5"/>
+    </linearGradient>
+    <filter id="envShadow">
+      <feDropShadow dx="0" dy="16" stdDeviation="32" flood-color="#000" flood-opacity="0.65"/>
+    </filter>
+    <filter id="boltGlow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="url(#bg)"/>
+  <!-- Subtle top sheen -->
+  <rect width="1024" height="430" rx="220" ry="220" fill="white" opacity="0.025"/>
+
+  <!-- Envelope body -->
+  <g filter="url(#envShadow)">
+    <rect x="148" y="268" width="728" height="488" rx="40" ry="40" fill="url(#envBody)"/>
+  </g>
+
+  <!-- Bottom-left crease -->
+  <polygon points="148,756 420,540 148,540" fill="#047857" opacity="0.38"/>
+  <!-- Bottom-right crease -->
+  <polygon points="876,756 604,540 876,540" fill="#065f46" opacity="0.38"/>
+
+  <!-- Top flap -->
+  <polygon points="148,268 512,500 876,268" fill="url(#flap)"/>
+  <polyline points="148,268 512,500 876,268" fill="none" stroke="#ecfdf5" stroke-width="2" opacity="0.20"/>
+
+  <!-- Lightning bolt — centred, white/light, glowing -->
+  <g filter="url(#boltGlow)">
+    <polygon
+      points="548,310 440,532 512,532 476,714 608,468 526,468"
+      fill="url(#bolt)"
+      opacity="0.92"
+    />
+  </g>
+
 </svg>
