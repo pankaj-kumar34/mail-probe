@@ -4,35 +4,50 @@
 
 @layer base {
   :root {
-    --background: 0 0% 96%;
-    --foreground: 240 10% 4%;
+    --background: 0 0% 98%;
+    --foreground: 240 10% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 4%;
+    --card-foreground: 240 10% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 4%;
-    --primary: 161 94% 30%;
+    --popover-foreground: 240 10% 12%;
+    --primary: 161 84% 36%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 5% 94%;
-    --secondary-foreground: 240 6% 10%;
-    --muted: 240 5% 94%;
-    --muted-foreground: 240 4% 46%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 15%;
+    --muted: 240 5% 95%;
+    --muted-foreground: 240 4% 45%;
     --accent: 240 5% 92%;
-    --accent-foreground: 240 6% 10%;
+    --accent-foreground: 240 6% 15%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 161 94% 30%;
-    --radius: 0.5rem;
+    --border: 240 6% 88%;
+    --input: 240 6% 88%;
+    --ring: 161 84% 36%;
+    --radius: 0.625rem;
   }
 }
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+    line-height: 1.5;
+  }
   html, body, #root { height: 100%; }
-  input, select, textarea, button { font-family: inherit; }
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  input, select, textarea, button {
+    font-family: inherit;
+    color: inherit;
+  }
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 0.75;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { @apply bg-border rounded; }
+  ::-webkit-scrollbar-thumb { @apply bg-zinc-300 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-zinc-400; }
 }

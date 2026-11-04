@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v3/pkg/events"
 )
 
 //go:embed all:frontend/dist
@@ -23,13 +24,12 @@ func main() {
 			Handler: application.AssetFileServerFS(assets),
 		},
 		Mac: application.MacOptions{
-			ApplicationShouldTerminateAfterLastWindowClosed: true,
+			ApplicationShouldTerminateAfterLastWindowClosed: false,
 		},
 	})
-
 	app.setApp(wailsApp)
 
-	wailsApp.Window.NewWithOptions(application.WebviewWindowOptions{
+	win := wailsApp.Window.NewWithOptions(application.WebviewWindowOptions{
 		Title:           "Mail Probe",
 		Width:           1100,
 		Height:          720,
@@ -43,6 +43,18 @@ func main() {
 		},
 		BackgroundColour: application.NewRGB(245, 245, 245),
 		URL:              "/",
+	})
+
+	// Clicking the red close button hides the window; app stays in the Dock.
+	win.RegisterHook(events.Mac.WindowShouldClose, func(e *application.WindowEvent) {
+		e.Cancel()
+		win.Hide()
+	})
+
+	// Clicking the Dock icon brings the window back.
+	wailsApp.Event.OnApplicationEvent(events.Mac.ApplicationShouldHandleReopen, func(e *application.ApplicationEvent) {
+		win.Show()
+		win.Focus()
 	})
 
 	if err := wailsApp.Run(); err != nil {

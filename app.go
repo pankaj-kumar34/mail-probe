@@ -122,8 +122,16 @@ func (a *App) setApp(app *application.App) { a.app = app }
 
 // PickFiles opens a native file picker and returns selected file paths
 func (a *App) PickFiles() []string {
-	files, err := a.app.Dialog.OpenFile().
+	targetApp := a.app
+	if targetApp == nil {
+		targetApp = application.Get()
+	}
+	if targetApp == nil || targetApp.Dialog == nil {
+		return []string{}
+	}
+	files, err := targetApp.Dialog.OpenFile().
 		SetTitle("Select Attachments").
+		CanChooseFiles(true).
 		PromptForMultipleSelection()
 	if err != nil || files == nil {
 		return []string{}
