@@ -1,59 +1,67 @@
-# Welcome to Your New Wails3 Project!
+# Mail Probe
 
-Congratulations on generating your Wails3 application! This README will guide you through the next steps to get your project up and running.
+A native macOS SMTP diagnostics tool. Test connections, send emails, inspect raw SMTP protocol logs — all from a clean desktop UI.
 
-## Getting Started
+## Features
 
-1. Navigate to your project directory in the terminal.
+- **Multi-server profiles** — save and manage multiple SMTP servers with per-profile test status
+- **Full SMTP diagnostics** — raw protocol log for every connection (EHLO, AUTH, MAIL FROM, DATA…)
+- **Port 465 implicit TLS** + port 587/25 STARTTLS — both work correctly
+- **File attachments** — native macOS file picker, multipart MIME encoding
+- **Cc / Bcc** — recipient chips with drag support
+- **Send-via picker** — only shows servers you've successfully tested
+- **Snippets & templates** — save reusable subject/body combos
+- **Sent history** — searchable log of every sent email
+- **Autocomplete** — remembers addresses, subjects, and names across sessions
+- **File-based storage** — all data in `~/Library/Application Support/Mail Probe/data.json` (atomic writes, Time Machine backed)
 
-2. To run your application in development mode, use the following command:
+## Stack
 
-   ```
-   wails3 dev
-   ```
+- **Backend:** Go + [Wails v3](https://v3.wails.io/)
+- **Frontend:** React + TypeScript + Tailwind CSS + shadcn/ui
+- **Theme:** Light zinc + emerald, native macOS light titlebar
 
-   This will start your application and enable hot-reloading for both frontend and backend changes.
+## Build
 
-3. To build your application for production, use:
+Requires: Go, Node.js (via nvm), [Wails v3](https://v3.wails.io/), [Task](https://taskfile.dev/)
 
-   ```
-   wails3 build
-   ```
+```sh
+# Build + bundle as .app
+wails3 task darwin:package
 
-   This will create a production-ready executable in the `build` directory.
+# Install to /Applications
+cp -r "bin/Mail Probe.app" /Applications/
 
-## Exploring Wails3 Features
+# Dev mode (hot reload)
+wails3 dev
+```
 
-Now that you have your project set up, it's time to explore the features that Wails3 offers:
-
-1. **Check out the examples**: The best way to learn is by example. Visit the `examples` directory in the `v3/examples` directory to see various sample applications.
-
-2. **Run an example**: To run any of the examples, navigate to the example's directory and use:
-
-   ```
-   go run .
-   ```
-
-   Note: Some examples may be under development during the alpha phase.
-
-3. **Explore the documentation**: Visit the [Wails3 documentation](https://v3.wails.io/) for in-depth guides and API references.
-
-4. **Join the community**: Have questions or want to share your progress? Join the [Wails Discord](https://discord.gg/JDdSxwjhGf) or visit the [Wails discussions on GitHub](https://github.com/wailsapp/wails/discussions).
+Output: `bin/Mail Probe.app`
 
 ## Project Structure
 
-Take a moment to familiarize yourself with your project structure:
+```
+mail-probe/
+├── main.go                  # App bootstrap, window config
+├── app.go                   # SMTP client, file I/O, native dialogs
+├── build/
+│   ├── config.yml           # App metadata (name, version, bundle ID)
+│   └── darwin/              # macOS icons, Info.plist
+├── frontend/
+│   ├── src/
+│   │   ├── App.tsx          # Full UI — profiles, compose, history
+│   │   ├── index.css        # Tailwind + shadcn CSS vars
+│   │   └── components/ui/   # shadcn components
+│   └── bindings/            # Auto-generated Wails v3 TS bindings
+└── Taskfile.yml             # Build tasks (darwin:build, darwin:package, darwin:run)
+```
 
-- `frontend/`: Contains your frontend code (HTML, CSS, JavaScript/TypeScript)
-- `main.go`: The entry point of your Go backend
-- `app.go`: Define your application structure and methods here
-- `wails.json`: Configuration file for your Wails project
+## Data
 
-## Next Steps
+All state is stored in a single JSON file:
 
-1. Modify the frontend in the `frontend/` directory to create your desired UI.
-2. Add backend functionality in `main.go`.
-3. Use `wails3 dev` to see your changes in real-time.
-4. When ready, build your application with `wails3 build`.
+```
+~/Library/Application Support/Mail Probe/data.json
+```
 
-Happy coding with Wails3! If you encounter any issues or have questions, don't hesitate to consult the documentation or reach out to the Wails community.
+Includes: profiles, test status, sent history, snippets, templates, compose draft, autocomplete history.
