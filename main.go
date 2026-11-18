@@ -13,12 +13,14 @@ var assets embed.FS
 
 func main() {
 	app := NewApp()
+	updaterService := NewUpdaterService()
 
 	wailsApp := application.New(application.Options{
 		Name:        "Mail Probe",
 		Description: "SMTP Diagnostics Tool",
 		Services: []application.Service{
 			application.NewService(app),
+			application.NewService(updaterService),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),

@@ -7,6 +7,11 @@ import {
   SaveData,
 } from "../bindings/mail-probe/app";
 import {
+  UpdaterService,
+  type AppVersionInfo,
+  type UpdateCheckResult,
+} from "../bindings/mail-probe/index.js";
+import {
   ServerProfile,
   EmailReq,
   Result,
@@ -31,6 +36,7 @@ import { SnippetsView } from "./components/snippets/SnippetsView";
 import { TemplatesView } from "./components/templates/TemplatesView";
 import { HistoryView } from "./components/history/HistoryView";
 import { SmtpInspectorModal } from "./components/common/SmtpInspectorModal";
+import { UpdateModal } from "./components/ui/UpdateModal";
 
 const t = (s: string) => s?.trim() || "";
 
@@ -97,8 +103,26 @@ export default function App() {
   );
   const [inspectLog, setInspectLog] = useState<string | null>(null);
 
+  // Auto-Updater state
+  const [versionInfo, setVersionInfo] = useState<AppVersionInfo | null>(null);
+  const [updateCheckResult, setUpdateCheckResult] =
+    useState<UpdateCheckResult | null>(null);
+  const [isUpdaterOpen, setIsUpdaterOpen] = useState(false);
+
   // Load Data on Initial Launch
   useEffect(() => {
+    UpdaterService.GetVersionInfo()
+      .then((info) => {
+        if (info) setVersionInfo(info);
+      })
+      .catch(() => {});
+
+    UpdaterService.CheckForUpdate()
+      .then((res) => {
+        if (res) setUpdateCheckResult(res);
+      })
+      .catch(() => {});
+
     LoadData().then((raw: string) => {
       let data = EMPTY_DATA;
       try {
@@ -508,6 +532,11 @@ export default function App() {
         )}
         historyCount={sentHistory.length}
         logCount={logs.length}
+        appVersion={versionInfo?.version || "1.0.0"}
+        updateAvailableVersion={
+          updateCheckResult?.hasUpdate ? updateCheckResult.latestVersion : null
+        }
+        onOpenUpdater={() => setIsUpdaterOpen(true)}
       />
 
       {/* ── Center Stage & Content Area ── */}
@@ -614,6 +643,15 @@ export default function App() {
       <SmtpInspectorModal
         log={inspectLog}
         onClose={() => setInspectLog(null)}
+      />
+
+      {/* GitHub Releases Auto-Updater Modal */}
+      <UpdateModal
+        isOpen={isUpdaterOpen}
+        onClose={() => setIsUpdaterOpen(false)}
+        versionInfo={versionInfo}
+        initialCheckResult={updateCheckResult}
+        onUpdateCheckComplete={(res) => setUpdateCheckResult(res)}
       />
     </div>
   );

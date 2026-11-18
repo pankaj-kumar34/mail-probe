@@ -6,6 +6,7 @@ import {
   FileText,
   Bookmark,
   History,
+  Sparkles,
 } from "lucide-react";
 import { View } from "../../types";
 import { cn } from "../../lib/utils";
@@ -18,6 +19,9 @@ interface SidebarProps {
   snippetCount: number;
   historyCount: number;
   logCount: number;
+  appVersion?: string;
+  updateAvailableVersion?: string | null;
+  onOpenUpdater?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -28,6 +32,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   snippetCount,
   historyCount,
   logCount,
+  appVersion = "1.0.0",
+  updateAvailableVersion = null,
+  onOpenUpdater,
 }) => {
   const navItems = [
     {
@@ -131,6 +138,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
           );
         })}
       </div>
+
+      {/* Sidebar Footer: Version & Auto-Update */}
+      {onOpenUpdater && (
+        <div className="flex shrink-0 items-center justify-between border-t border-zinc-800/80 bg-zinc-900/90 px-3.5 py-2.5">
+          <button
+            type="button"
+            onClick={onOpenUpdater}
+            className="flex cursor-pointer items-center gap-2 font-mono text-xs text-zinc-400 transition-colors hover:text-zinc-200"
+            title="Check for updates from GitHub Releases"
+          >
+            <span>v{appVersion}</span>
+          </button>
+
+          {updateAvailableVersion && (
+            <button
+              type="button"
+              onClick={onOpenUpdater}
+              className="flex cursor-pointer items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-300 shadow-2xs transition-all hover:bg-emerald-500/25"
+              title={`Install Mail Probe v${updateAvailableVersion}`}
+            >
+              <Sparkles size={11} className="text-emerald-400" />
+              <span>Update v{updateAvailableVersion}</span>
+            </button>
+          )}
+        </div>
+      )}
     </aside>
   );
 };
