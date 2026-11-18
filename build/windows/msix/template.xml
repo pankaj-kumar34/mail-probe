@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MsixPackagingToolTemplate
+    xmlns="http://schemas.microsoft.com/msix/packaging/msixpackagingtool/template/2022">
+    <Settings
+        AllowTelemetry="false"
+        ApplyACLsToPackageFiles="true"
+        GenerateCommandLineFile="true"
+        AllowPromptForPassword="false">
+    </Settings>
+    <Installer
+        Path="mail-probe"
+        Arguments=""
+        InstallLocation="C:\Program Files\IBM\Mail Probe">
+    </Installer>
+    <PackageInformation
+        PackageName="Mail Probe"
+        PackageDisplayName="Mail Probe"
+        PublisherName="CN=IBM"
+        PublisherDisplayName="IBM"
+        Version="0.1.0.0"
+        PackageDescription="SSH Bastion Tunnel Manager">
+        <Capabilities>
+            <Capability Name="runFullTrust" />
+            
+        </Capabilities>
+        <Applications>
+            <Application
+                Id="com.ibm.mail-probe"
+                Description="SSH Bastion Tunnel Manager"
+                DisplayName="Mail Probe"
+                ExecutableName="mail-probe"
+                EntryPoint="Windows.FullTrustApplication">
+                
+            </Application>
+        </Applications>
+        <Resources>
+            <Resource Language="en-us" />
+        </Resources>
+        <Dependencies>
+            <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+        </Dependencies>
+        <Properties>
+            <Framework>false</Framework>
+            <DisplayName>Mail Probe</DisplayName>
+            <PublisherDisplayName>IBM</PublisherDisplayName>
+            <Description>SSH Bastion Tunnel Manager</Description>
+            <Logo>Assets\AppIcon.png</Logo>
+        </Properties>
+    </PackageInformation>
+    <SaveLocation PackagePath="mail-probe.msix" />
+    <PackageIntegrity>
+        <CertificatePath></CertificatePath>
+    </PackageIntegrity>
+</MsixPackagingToolTemplate>

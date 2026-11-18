@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Mail Probe
+Comment=SSH Bastion Tunnel Manager
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/mail-probe %u
+Terminal=false
+Type=Application
+Icon=mail-probe
+Categories=Utility;
+StartupWMClass=mail-probe
+
+ 
