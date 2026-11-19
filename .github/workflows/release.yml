@@ -110,7 +110,7 @@ jobs:
             xattr -cr "${DIST_DIR}/Mail Probe.app"
             codesign --force --deep --sign - "${DIST_DIR}/Mail Probe.app"
             codesign --verify --deep --strict "${DIST_DIR}/Mail Probe.app"
-            tar -C "${DIST_DIR}" -czf "mail-probe-darwin-${ARCH}.tar.gz" Mail Probe.app
+            tar -C "${DIST_DIR}" -czf "mail-probe-darwin-${ARCH}.tar.gz" "Mail Probe.app"
           done
 
       - name: Build & Package Application (Linux)
